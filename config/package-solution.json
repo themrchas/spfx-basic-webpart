@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "dynamicwebpartprops-client-side-solution",
+    "id": "9e0ef316-22b4-4c6c-888f-b49f28c1ab8a",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/dynamicwebpartprops.sppkg"
+  }
+}
