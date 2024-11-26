@@ -20,7 +20,11 @@
     "description": { "default": "Dynamic-Props-Web-Part description", "customDescription":"Custom erbpart description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "properties.description goes here"
+      "description": "properties.description goes here",
+      "propertyPaneText2": "Multi-line text",
+      "propertyPaneChkBox": "Checkbox",
+      "propertyPaneDropDown": "1",
+      "propertyPaneToggle": true
     }
   }]
 }

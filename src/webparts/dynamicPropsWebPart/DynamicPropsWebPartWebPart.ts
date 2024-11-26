@@ -1,9 +1,14 @@
 import { Version } from '@microsoft/sp-core-library';
+
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneCheckbox,
+  PropertyPaneDropdown,
+  PropertyPaneToggle
 } from '@microsoft/sp-webpart-base';
+
 import { escape } from '@microsoft/sp-lodash-subset';
 
 import styles from './DynamicPropsWebPartWebPart.module.scss';
@@ -22,6 +27,11 @@ export interface ISPList {
 
 export interface IDynamicPropsWebPartWebPartProps {
   description: string;
+  propertyPaneText2: string;
+  propertyPaneChkBox: boolean;
+  propertyPaneDropDown: string;
+  propertyPaneToggle: boolean;
+
 }
 
 export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<IDynamicPropsWebPartWebPartProps> {
@@ -44,7 +54,10 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
             <div class="${ styles.column }">
               <span class="${ styles.title }">Welcome to SharePoint! ${this.context.pageContext.user.displayName}</span>
               <p class="${ styles.subTitle }">Customize SharePoint experiences using Web Parts.</p>
-              <p class="${ styles.description }">${escape(this.properties.description)}</p>
+              <p>${escape(this.properties.propertyPaneText2)}</p>
+              <p>${this.properties.propertyPaneChkBox}</p>
+              <p>${escape(this.properties.propertyPaneDropDown)}</p>
+              <p>${this.properties.propertyPaneToggle}</p>
               <a href="https://aka.ms/spfx" class="${ styles.button }">
                 <span class="${ styles.label }">Learn more</span>
               </a>
@@ -85,6 +98,25 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneTextField('propertyPaneText2',{
+                  label: "Multi-line Text Field",
+                  multiline: true
+                }),
+                PropertyPaneCheckbox('propertyPaneChkBox',{
+                  text: 'Checkbox'
+                }),
+                PropertyPaneDropdown('propertyPaneDropDown',{
+                  label: 'Dropdown',
+                  options: [
+                    { key: '1', text: 'One'},
+                    { key: '2', text: 'Two'},
+                  ]
+                }),
+                PropertyPaneToggle('propertyPaneToggle',{
+                  label: 'Toggle',
+                  onText: 'On',
+                  offText: 'Off'
                 })
               ]
             }
