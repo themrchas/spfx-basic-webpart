@@ -24,7 +24,8 @@
       "propertyPaneText2": "Multi-line text",
       "propertyPaneChkBox": "Checkbox",
       "propertyPaneDropDown": "1",
-      "propertyPaneToggle": true
+      "propertyPaneToggle": true,
+      "propertyPaneButtonText": "Click Here!"
     }
   }]
 }

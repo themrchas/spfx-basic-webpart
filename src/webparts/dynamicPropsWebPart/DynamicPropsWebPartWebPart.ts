@@ -6,7 +6,9 @@ import {
   PropertyPaneTextField,
   PropertyPaneCheckbox,
   PropertyPaneDropdown,
-  PropertyPaneToggle
+  PropertyPaneToggle,
+  PropertyPaneButton
+
 } from '@microsoft/sp-webpart-base';
 
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -31,6 +33,7 @@ export interface IDynamicPropsWebPartWebPartProps {
   propertyPaneChkBox: boolean;
   propertyPaneDropDown: string;
   propertyPaneToggle: boolean;
+  propertyPaneButtonText: string;
 
 }
 
@@ -61,12 +64,21 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
               <a href="https://aka.ms/spfx" class="${ styles.button }">
                 <span class="${ styles.label }">Learn more</span>
               </a>
+              <p><button type='button' id='btn1'>Press</button></p>
+
             </div>
           </div>
         </div>
       </div>`;
 
+      this.domElement.querySelector('#btn1').addEventListener('click',this.btnModifyPropertyPaneTextField.bind(this));
       this.getSiteLists();
+  }
+
+  private btnModifyPropertyPaneTextField() : void {
+    console.log("btnModifyPropertyPaneText: 'this' ",this);
+    this.properties.propertyPaneText2 = "Text created by button click";
+    this.render();
   }
 
   
@@ -117,6 +129,18 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
                   label: 'Toggle',
                   onText: 'On',
                   offText: 'Off'
+                }),
+
+                /* Note that 'propertyPaneButton'is simply an internal identifier for the control used by SharePoint.
+                * There is no inherent functionality to this parameter.
+                */
+                PropertyPaneButton('Property PaneButton Identifier', {
+                  text:this.properties.propertyPaneButtonText,
+                  onClick: () => { 
+                    alert('PropertyPaneButton click with value');
+                    this.properties.propertyPaneText2 = "Modified mulit-line text field using PropertyPaneButton"
+                    this.render();
+                  }
                 })
               ]
             }
