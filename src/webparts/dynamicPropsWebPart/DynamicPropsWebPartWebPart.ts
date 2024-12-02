@@ -24,7 +24,7 @@ export interface ISPLists {
 
 export interface ISPList {
   Title: string;
-  Id: string;
+  ItemCount: number;
 }
 
 export interface IDynamicPropsWebPartWebPartProps {
@@ -65,6 +65,8 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
                 <span class="${ styles.label }">Learn more</span>
               </a>
               <p><button type='button' id='btn1'>Press</button></p>
+              <p><button type='button' id='btn2'>Display lists</button></p>
+              <p id='lists'></p>
 
             </div>
           </div>
@@ -72,8 +74,38 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
       </div>`;
 
       this.domElement.querySelector('#btn1').addEventListener('click',this.btnModifyPropertyPaneTextField.bind(this));
-      this.getSiteLists();
+      this.domElement.querySelector('#btn2').addEventListener('click',this.btnDisplayListNames.bind(this));
+      //this.getSiteLists();
   }
+
+  private btnDisplayListNames(targetId: string) : void {
+
+    this.getSiteLists().then(
+
+      (rawListData: ISPLists) => {
+
+        console.log('rawListData is',rawListData);
+
+        const htmlLists  = document.createElement('ul');
+
+        for(let item of rawListData.value)  {
+
+          let li = document.createElement('li');
+          li.innerHTML = `<li><div style="display:flex;justify-content:space-between;width:80px"><div>${item.Title}</div><div>${item.ItemCount}</div>`
+          htmlLists.appendChild(li);
+          //htmlLists += `<li><div style="display:flex;justify-content:space-between;width:80px"><div>${item.Title}</div><div>${item.ItemCount}</div>`
+      }
+
+
+        //htmlLists += "</ul>"
+        this.domElement.querySelector("#lists").appendChild(htmlLists);
+
+        this.render();
+      }
+    )
+
+
+  } //
 
   private btnModifyPropertyPaneTextField() : void {
     console.log("btnModifyPropertyPaneText: 'this' ",this);
@@ -88,7 +120,14 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
     .then(async (response: SPHttpClientResponse) => {
       let result =  await response.json();
       console.log('lists are',result);
-      return result;
+
+      let listInfo:ISPLists = { value: [] };
+
+      for (let item of result.value) 
+        listInfo.value.push({Title:item.Title,ItemCount:item.ItemCount })
+
+
+      return listInfo;
     });
 
   } //getSiteLists 
