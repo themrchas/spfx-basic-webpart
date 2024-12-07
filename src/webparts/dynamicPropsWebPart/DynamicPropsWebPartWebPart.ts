@@ -80,9 +80,14 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
 
   private btnDisplayListNames(targetId: string) : void {
 
-    this.getSiteLists().then(
+    console.log('btnDisplayListNames this',this);
 
-      (rawListData: ISPLists) => {
+    this.getSiteLists().then(
+      
+        //Used a non arrow function in order to be able to use 'this' referring to the 
+        function (rawListData: ISPLists) {
+
+        console.log('then: that is',this);
 
         console.log('rawListData is',rawListData);
 
@@ -91,17 +96,17 @@ export default class DynamicPropsWebPartWebPart extends BaseClientSideWebPart<ID
         for(let item of rawListData.value)  {
 
           let li = document.createElement('li');
-          li.innerHTML = `<li><div style="display:flex;justify-content:space-between;width:80px"><div>${item.Title}</div><div>${item.ItemCount}</div>`
+          li.innerHTML = `<li><div style="display:flex;justify-content:space-between;width:200px"><div>${item.Title}</div><div>${item.ItemCount}</div>`
           htmlLists.appendChild(li);
           //htmlLists += `<li><div style="display:flex;justify-content:space-between;width:80px"><div>${item.Title}</div><div>${item.ItemCount}</div>`
       }
 
+        const listContainer: Element = this.domElement.querySelector("#lists").appendChild(htmlLists);
 
-        //htmlLists += "</ul>"
-        this.domElement.querySelector("#lists").appendChild(htmlLists);
+       // this.render(); Not needed as appendChild is used
 
-        this.render();
-      }
+      }.bind(this)
+
     )
 
 

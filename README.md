@@ -28,3 +28,6 @@ gulp package-solution - TODO
 
 Taken from learn.microsoft.com build-a-hello-world-web-part
 pnp.github.io/cli-microsoft365/cmd/spfx/project/project-upgrade
+
+https://www.sharepointnutsandbolts.com/2017/02/sharepoint-framework-web-part-properties-button-toggle-slider.html
+
